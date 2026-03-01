@@ -1,3 +1,6 @@
+## Live Demo
+https://heart-risk-predictions.streamlit.app
+
 # 🫀 Heart Disease Prediction
 
 > 🩺 A powerful machine learning web application that predicts the likelihood of heart disease based on patient medical parameters using multiple classification algorithms.
