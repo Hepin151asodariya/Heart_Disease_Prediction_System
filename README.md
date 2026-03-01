@@ -166,37 +166,6 @@ The models require the following **11 medical features**:
 | **Oldpeak** | 📊 | ST depression (0.0-10.0) | 🔢 Numeric |
 | **ST_Slope** | 📉 | Slope of ST segment (0-2) | 🏷️ Categorical |
 
----
-
-## 📦 Requirements
-
-### 🔑 Key Dependencies
-
-| Package | Version | Purpose |
-|---------|---------|---------|
-| 🎈 streamlit | ≥1.54.0 | Web application framework |
-| 🐼 pandas | ≥2.3.3 | Data manipulation |
-| 🔢 numpy | ≥2.4.2 | Numerical computing |
-| 🤖 scikit-learn | ≥1.8.0 | Machine learning |
-| 📊 plotly | ≥5.0.0 | Data visualization |
-
-📄 See `requirements.txt` for complete list
-
----
-
-## 🚀 Future Enhancements
-
-Ideas for future improvements:
-
-- 🔍 **Model Explainability** - Add SHAP values to explain predictions
-- 📊 **Confidence Scores** - Display prediction confidence percentages
-- 📈 **Performance Dashboard** - Real-time model performance monitoring
-- 🗄️ **Database Integration** - Track patient history and records
-- 🌐 **REST API** - Create API endpoints for system integration
-- 📱 **Mobile App** - Develop native mobile application
-- 🎨 **Advanced UI** - Enhanced visualizations and themes
-
----
 
 ## ⚠️ Disclaimer
 
@@ -212,24 +181,8 @@ Ideas for future improvements:
 
 ---
 
-## 📝 License
 
-This project is available for educational and research purposes.
 
----
 
-<div align="center">
-
-### 🌟 If you found this project helpful, please consider giving it a star! 🌟
-
-**Made with ❤️ for the healthcare community**
-
-📧 For questions or feedback, feel free to reach out!
-
----
-
-**Last Updated:** March 2026 | **Version:** 1.0.0
-
-</div>
 
 
