@@ -54,7 +54,7 @@ with tab1:
 })
 
     algonames = ["Logistic Regression", "Random Forest", "Support Vector Machine", "Decision Tree"]
-    modelnames = ["LogisticR.pkl","RFC.pkl","SVM.pkl","DCL.pkl"]
+    modelnames = ["Models/LogisticR.pkl","Models/RFC.pkl","Models/SVM.pkl","Models/DCL.pkl"]
 
 
     predictions = []
@@ -111,7 +111,7 @@ with tab2:
     if uploaded_file is not None:
         #read the uploaded CSV file into a dataframe
         input_data = pd.read_csv(uploaded_file)
-        model = pickle.load(open("LogisticR.pkl", "rb"))
+        model = pickle.load(open("Models/LogisticR.pkl", "rb"))
 
 
         #Ensure that the input Dataframe matches the expected columns and format
