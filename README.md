@@ -178,9 +178,9 @@ The models require the following **11 medical features**:
 > ✅ **ALWAYS** consult qualified healthcare professionals for medical concerns
 >
 > The predictions are based on ML models trained on historical data and should not be considered authoritative medical advice.
-
 ---
-
+##Live Demo
+https://heart-risk-predictions.streamlit.app
 
 
 
