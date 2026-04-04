@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import pickle
 import base64
-import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 
 # ========================= PAGE CONFIG =========================
 st.set_page_config(
@@ -66,10 +66,11 @@ with st.sidebar:
     """)
 
     st.subheader("Expected Input Features (11)")
-    
-    "Age, Sex, ChestPainType, RestingBP, Cholesterol, FastingBS,\n"
-    "RestingECG, MaxHR, ExerciseAngina, Oldpeak, ST_Slope",
-        
+    st.code(
+        "Age, Sex, ChestPainType, RestingBP, Cholesterol, FastingBS,\n"
+        "RestingECG, MaxHR, ExerciseAngina, Oldpeak, ST_Slope",
+        language="text"
+    )
 
     st.info("Tip: Use encoded numeric values for bulk CSV prediction.")
 
@@ -249,28 +250,33 @@ with tab3:
 
     st.divider()
 
-    # Simple matplotlib chart matching original dark background
-    bg_color = "#010308"
-    bar_colors = ["#e74c3c", "#2ecc71", "#3498db", "#9b59b6"]
+    fig = go.Figure(
+        data=[
+            go.Bar(
+                x=Models,
+                y=Accuracies,
+                marker_color=["#e74c3c", "#2ecc71", "#3498db", "#9b59b6"],
+                text=[f"{a:.0%}" for a in Accuracies],
+                textposition="outside",
+            )
+        ]
+    )
 
-    fig, ax = plt.subplots(figsize=(11, 4.8))
-    fig.patch.set_facecolor(bg_color)
-    ax.set_facecolor(bg_color)
+    fig.update_layout(
+        title={"text": "Model Accuracy Comparison",
+               "x": 0.5, #"x": 0.5 sets the horizontal position of the title in Plotly.
+                            #0 = far left
+                            #0.5 = center
+                            #1 = far right ,
+                "xanchor": "center",
+                 "font": {"size": 24}
+    },
 
-    bars = ax.bar(Models, Accuracies, color=bar_colors, width=0.8)
-    ax.set_title("Model Accuracy Comparison", color="white", fontweight="bold")
-    ax.set_ylim(0, 1.0)
-    ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda y, _: f"{y:.0%}"))
-    ax.grid(axis="y", color="#2f3b4f", alpha=0.6)
-    ax.tick_params(axis="x", colors="white")
-    ax.tick_params(axis="y", colors="white")
-    ax.spines["top"].set_visible(False)
-    ax.spines["right"].set_visible(False)
-    ax.spines["left"].set_color("#3a4456")
-    ax.spines["bottom"].set_color("#3a4456")
 
-    for bar, acc in zip(bars, Accuracies):
-        ax.text(bar.get_x() + bar.get_width() / 2, acc + 0.01, f"{acc:.0%}", ha="center", color="white")
+        template="plotly_dark",
+        yaxis=dict(range=[0, 1], tickformat=".0%"),
+        xaxis_title="Models",
+        yaxis_title="Accuracy",
+    )
 
-    plt.tight_layout()
-    st.pyplot(fig)
+    st.plotly_chart(fig, use_container_width=True)
