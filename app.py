@@ -66,11 +66,19 @@ with st.sidebar:
     """)
 
     st.subheader("Expected Input Features (11)")
-    st.code(
-        "Age, Sex, ChestPainType, RestingBP, Cholesterol, FastingBS,\n"
-        "RestingECG, MaxHR, ExerciseAngina, Oldpeak, ST_Slope",
-        language="text"
-    )
+    st.markdown("""
+    - Age
+    - Sex
+    - ChestPainType
+    - RestingBP
+    - Cholesterol
+    - FastingBS
+    - RestingECG
+    - MaxHR
+    - ExerciseAngina
+    - Oldpeak
+    - ST_Slope
+    """)
 
     st.info("Tip: Use encoded numeric values for bulk CSV prediction.")
 
