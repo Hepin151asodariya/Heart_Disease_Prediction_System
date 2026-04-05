@@ -76,7 +76,7 @@ with st.sidebar:
     - RestingECG
     - MaxHR
     - ExerciseAngina
-    - Oldpeak
+    - Oldpeak    
     - ST_Slope
     """)
 
