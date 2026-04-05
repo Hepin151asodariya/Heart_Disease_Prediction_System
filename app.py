@@ -30,6 +30,11 @@ def load_single_prediction_models():
     }
 
 
+@st.cache_data
+def load_dataset(dataset_path):
+    return pd.read_csv(dataset_path)
+
+
 
 
 # ================= DOWNLOAD FUNCTION (UNCHANGED) =================
@@ -42,20 +47,23 @@ def get_binary_file_downloader_html(df):
 
 
 # ========================= HEADER =========================
-st.title("❤️ Heart Disease Prediction App")
+st.title("❤️ Heart Risk Prediction System")
 
 # ========================= SIDEBAR =========================
 with st.sidebar:
-    st.header("Project Information")
+    st.header("System Information")
     st.caption("This dashboard predicts heart disease risk using multiple machine learning models.")
 
     st.divider()
-    st.subheader("What This Project Includes")
+
+    st.subheader("What This System Includes")
     st.markdown("""
     - Single patient prediction
     - Bulk CSV prediction
     - Model accuracy comparison
     """)
+
+    st.divider()
 
     st.subheader("Models Used")
     st.markdown("""
@@ -65,25 +73,54 @@ with st.sidebar:
     - Decision Tree
     """)
 
-    st.subheader("Expected Input Features (11)")
+    st.divider()
+
+    st.subheader("Parameter Quick Guide( Total 11 features)")
     st.markdown("""
-    - Age
-    - Sex
-    - ChestPainType
-    - RestingBP
-    - Cholesterol
-    - FastingBS
-    - RestingECG
-    - MaxHR
-    - ExerciseAngina
-    - Oldpeak    
-    - ST_Slope
+        - **Age** 
+        - **Sex**
+                
+        - **ChestPainType**: Type of chest pain you feel.
+            - Typical Angina ->  Chest pain due to heart problem (serious)
+            - Atypical Angina ->  Chest pain but not exactly heart-related
+            - Non-anginal Pain ->  Pain not related to heart
+            - Asymptomatic ->  No chest pain
+                
+                
+        - **RestingBP** ->  Blood pressure when you are resting.
+                
+        - **Cholesterol** ->  Fat level in your blood.
+                
+        - **FastingBS** (Blood Sugar):  Sugar level after fasting.
+            - <= 120 mg/dl ->  Normal
+            - > 120 mg/dl ->  High (risk)
+            
+                
+        - **RestingECG**:  Heart electrical activity test.
+            - Normal ->  No problem
+            - ST-T wave abnormality ->  Possible heart issue
+            - Left ventricular hypertrophy ->  Heart muscle thick (serious)
+                
+        - **MaxHR** ->  Maximum heart beats per minute during activity.
+                
+        - **ExerciseAngina**:  Chest pain during exercise.
+            - Yes ->  Risk
+            - No ->  Safe
+                
+        - **Oldpeak** ->  Heart stress level after exercise (higher value = more risk).
+                
+        - **ST_Slope**:  Heart response during exercise.
+            - Upsloping ->  Normal (good)
+            - Flat ->  Medium risk
+            - Downsloping ->  High risk
     """)
+
+    st.divider()
 
     st.info("Tip: Use encoded numeric values for bulk CSV prediction.")
 
 # ========================= TABS =========================
-tab1, tab2, tab3 = st.tabs(["HOME", "BULK PREDICTION", "MODEL INFORMATION"])
+tab1, tab2, tab3, tab4 = st.tabs(["HOME", "BULK PREDICTION", "MODEL INFORMATION", "ABOUT DATASET"])
 
 
 # ===================== TAB 1: SINGLE PREDICTION =====================
@@ -94,12 +131,12 @@ with tab1:
     # -------- ROW 1 --------
     col1, col2, col3 = st.columns(3)
     with col1:
-        age = st.number_input("Age", min_value=1, max_value=120, key="age")
+        age = st.slider("**Age**", min_value=1, max_value=120, value=40, key="age")   #**Age** here ** is used to make the label bold in Streamlit.
     with col2:
-        sex = st.selectbox("Sex", options=["Male", "Female"], key="sex")
+        sex = st.selectbox("**Sex**", options=["Male", "Female","Other"], key="sex")
     with col3:
         chest_pain_type = st.selectbox(
-            "Chest Pain Type",
+            "**Chest Pain Type**",
             options=["Typical Angina", "Atypical Angina", "Non-anginal Pain", "Asymptomatic"],
             key="cpt"
         )
@@ -107,31 +144,31 @@ with tab1:
     # -------- ROW 2 --------
     col4, col5, col6 = st.columns(3)
     with col4:
-        resting_blood_pressure = st.number_input("Resting Blood Pressure", min_value=0, max_value=300, key="rbp")
+        resting_blood_pressure = st.slider("**Resting Blood Pressure (trestbps)**", min_value=0, max_value=300, value=120, key="rbp")
     with col5:
-        serum_cholesterol = st.number_input("Serum Cholesterol (mg/dl)", min_value=0, key="chol")
+        serum_cholesterol = st.slider("**Serum Cholesterol (chol)**", min_value=0,max_value=600, value=200, key="chol")
     with col6:
-        fasting_blood_sugar = st.selectbox("Fasting Blood Sugar", ["<= 120 mg/dl", "> 120 mg/dl"], key="fbs")
+        fasting_blood_sugar = st.selectbox("**Fasting Blood Sugar**", ["<= 120 mg/dl", "> 120 mg/dl"], key="fbs")
 
     # -------- ROW 3 --------
     col7, col8, col9 = st.columns(3)
     with col7:
         resting_ecg = st.selectbox(
-            "Resting ECG Results",
+            "**Resting ECG Results**",
             options=["Normal", "ST-T wave abnormality", "Left ventricular hypertrophy"],
             key="ecg"
         )
     with col8:
-        max_heart_rate = st.number_input("Maximum Heart Rate", min_value=60, max_value=202, key="mhr")
+        max_heart_rate = st.slider("**Maximum Heart Rate**", min_value=60, max_value=202, value=120, key="mhr")
     with col9:
-        exercise_induced_angina = st.selectbox("Exercise Induced Angina", options=["Yes", "No"], key="eia")
+        exercise_induced_angina = st.selectbox("**Exercise Induced Angina**", options=["Yes", "No"], key="eia")
 
     # -------- ROW 4 --------
     col10, col11, col12 = st.columns(3)
     with col10:
-        oldpeak = st.number_input("ST Depression (Oldpeak)", min_value=0.0, max_value=10.0, key="op")
+        oldpeak = st.number_input("**ST Depression (Oldpeak)**", min_value=0.0, max_value=10.0, key="op")
     with col11:
-        slope = st.selectbox("Slope of Peak Exercise ST", options=["Upsloping", "Flat", "Downsloping"], key="slope")
+        slope = st.selectbox("**Slope of Peak Exercise ST**", options=["Upsloping", "Flat", "Downsloping"], key="slope")
     with col12:
         st.write("")  # spacing
         st.write("")  # spacing
@@ -288,3 +325,31 @@ with tab3:
     )
 
     st.plotly_chart(fig, use_container_width=True)
+
+
+# ===================== TAB 4: ABOUT DATASET =====================
+with tab4:
+    # Title
+    st.markdown("## 🫀 Heart Disease Dataset Information")
+
+    st.write(
+        "This application uses the Heart Disease UCI Dataset, "
+        "which contains 1000 records with 12 attributes. "
+        "It is widely used for heart disease prediction."
+    )
+
+    # Key Statistics
+    st.markdown("### 📊 Key Statistics")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.info("👥 Total Patients: **1000**")
+        st.info("🧪 Features: **12 clinical parameters(used only 11)**")
+        st.info("📈 Data Type: **Structured tabular data**")
+
+    with col2:
+        st.info("🎯 Target: **Heart Disease (Yes/No)**")
+        st.info("⚖️ Class Distribution: **Approximately balanced**")
+        st.info("📂 Source: UCI Machine Learning Repository / Kaggle")
+
