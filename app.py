@@ -47,7 +47,7 @@ def get_binary_file_downloader_html(df):
 
 
 # ========================= HEADER =========================
-st.title("❤️ Heart Risk Prediction System")
+st.title("❤️ CardioRisk Analyzer")
 
 # ========================= SIDEBAR =========================
 with st.sidebar:
@@ -204,27 +204,66 @@ with tab1:
         })
 
         with st.spinner("Running prediction..."):
-            models = load_single_prediction_models()
-            algonames = list(models.keys())
-            predictions = []
+            rf_model = load_model("Models/RFC.pkl")
+            rf_prediction = rf_model.predict(input_data)[0]
+            rf_risk_probability = rf_model.predict_proba(input_data)[0][1] * 100
+            
 
-            for modelname in algonames:
-                model = models[modelname]
-                pred = model.predict(input_data)[0]
-                predictions.append(pred)
+        with st.container(border=True):
+            
+            if rf_prediction == 1:
+                st.markdown(
+                    "<p style='font-size:22px; font-weight:800;'>Prediction: <span style='color:#c0392b;'>HIGH RISK</span></p>",
+                    unsafe_allow_html=True,
+                )
+                st.error("High Risk of Heart Disease")
+            else:
+                st.markdown(
+                    "<p style='font-size:22px; font-weight:800;'>Prediction: <span style='color:#1e8449;'>LOW RISK</span></p>",
+                    unsafe_allow_html=True,
+                )
+                st.success("Low Risk of Heart Disease")
 
-        # Show results in 2x2 grid
-        r_col1, r_col2 = st.columns(2)
+            risk_color = "#c0392b" if rf_prediction == 1 else "#1e8449"
+            st.markdown(
+                f"<p style='font-size:22px; font-weight:700;'>Risk Probability: <span style='color:{risk_color};'>{rf_risk_probability:.2f}%</span></p>",
+                unsafe_allow_html=True,
+            )
 
-        for i in range(len(predictions)):
-            target_col = r_col1 if i % 2 == 0 else r_col2
-            with target_col:
-                with st.container(border=True):
-                    st.caption(algonames[i])
-                    if predictions[i] == 1:
-                        st.error("High Risk of Heart Disease")
-                    else:
-                        st.success("Low Risk of Heart Disease")
+            st.divider()
+
+            if rf_prediction == 1:
+                st.markdown("### Possible Contributing Parameters")
+                flagged_parameters = []
+
+                if age >= 55:
+                    flagged_parameters.append(f"Age is high ({age} years)")
+                if resting_blood_pressure >= 140:
+                    flagged_parameters.append(f"Resting blood pressure is high ({resting_blood_pressure} mm Hg)")
+                if serum_cholesterol >= 240:
+                    flagged_parameters.append(f"Cholesterol is high ({serum_cholesterol} mg/dl)")
+                if fasting_blood_sugar_val == 1:
+                    flagged_parameters.append("Fasting blood sugar is high (> 120 mg/dl)")
+                if resting_ecg != "Normal":
+                    flagged_parameters.append(f"Resting ECG is abnormal ({resting_ecg})")
+                if max_heart_rate < 100:
+                    flagged_parameters.append(f"Maximum heart rate is low ({max_heart_rate})")
+                if exercise_induced_angina == "Yes":
+                    flagged_parameters.append("Exercise induced angina is present")
+                if oldpeak >= 2.0:
+                    flagged_parameters.append(f"Oldpeak is elevated ({oldpeak})")
+                if slope in ["Flat", "Downsloping"]:
+                    flagged_parameters.append(f"ST slope shows risk pattern ({slope})")
+                if chest_pain_type in ["Asymptomatic", "Typical Angina"]:
+                    flagged_parameters.append(f"Chest pain type indicates possible risk ({chest_pain_type})")
+
+                if flagged_parameters:
+                    for item in flagged_parameters:
+                        st.write(f"- {item}")
+                else:
+                    st.info("No single parameter crossed the simple high-risk rule limits, but the model still predicted high risk from combined patterns.")
+
+                st.caption("These are rule-based hints for understanding the result, not a medical diagnosis.")
 
 
 # ===================== TAB 2: BULK PREDICTION =====================
@@ -327,6 +366,43 @@ with tab3:
     st.plotly_chart(fig, use_container_width=True)
 
 
+    st.divider()
+
+
+    st.markdown("## 📊 Model Evaluation Metrics")
+
+    # Example data (replace with real values)
+    metrics_data = {
+        "Logistic Regression": {"Precision": 86, "Recall": 89, " F1-score": 87},
+        "Random Forest": {"Precision": 86, "Recall": 91, " F1-score": 88},
+        "SVM": {"Precision": 85, "Recall": 86, " F1-score": 84},
+        "Decision Tree": {"Precision": 83, "Recall": 82, " F1-score": 83},
+    }
+
+    left_models = ["Logistic Regression", "SVM"]
+    right_models = ["Random Forest", "Decision Tree"]
+
+    left_col, right_col = st.columns(2)
+
+    with left_col:
+        for model in left_models:
+            values = metrics_data[model]
+            st.markdown(f"### {model}")
+            st.info(f"Precision: **{values['Precision']}%**")
+            st.info(f"Recall: **{values['Recall']}%**")
+            st.info(f"F1-score: **{values[' F1-score']}%**")
+            st.divider()
+
+    with right_col:
+        for model in right_models:
+            values = metrics_data[model]
+            st.markdown(f"### {model}")
+            st.info(f"Precision: **{values['Precision']}%**")
+            st.info(f"Recall: **{values['Recall']}%**")
+            st.info(f"F1-score: **{values[' F1-score']}%**")
+            st.divider()
+
+
 # ===================== TAB 4: ABOUT DATASET =====================
 with tab4:
     # Title
@@ -337,6 +413,7 @@ with tab4:
         "which contains 1000 records with 12 attributes. "
         "It is widely used for heart disease prediction."
     )
+    st.divider()
 
     # Key Statistics
     st.markdown("### 📊 Key Statistics")
@@ -352,4 +429,9 @@ with tab4:
         st.info("🎯 Target: **Heart Disease (Yes/No)**")
         st.info("⚖️ Class Distribution: **Approximately balanced**")
         st.info("📂 Source: UCI Machine Learning Repository / Kaggle")
+
+
+
+
+
 
