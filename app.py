@@ -373,10 +373,10 @@ with tab3:
 
     # Example data (replace with real values)
     metrics_data = {
-        "Logistic Regression": {"Precision": 86, "Recall": 89, " F1-score": 87, "TN": 342, "FP": 58, "FN": 51, "TP": 149},
-        "Random Forest": {"Precision": 86, "Recall": 91, " F1-score": 88, "TN": 350, "FP": 50, "FN": 39, "TP": 161},
-        "SVM": {"Precision": 85, "Recall": 86, " F1-score": 84, "TN": 345, "FP": 55, "FN": 44, "TP": 156},
-        "Decision Tree": {"Precision": 83, "Recall": 82, " F1-score": 83, "TN": 338, "FP": 62, "FN": 58, "TP": 142},
+        "Logistic Regression": {"Precision": 86, "Recall": 89, " F1-score": 87,"TP": 67,"FN": 15,"FP": 11, "TN": 91},
+        "Random Forest": {"Precision": 86, "Recall": 91, " F1-score": 88,"TP": 67, "FN": 15, "FP": 9, "TN": 93},
+        "SVM": {"Precision": 85, "Recall": 86, " F1-score": 84,"TP": 67, "FN": 15, "FP": 14, "TN": 88},
+        "Decision Tree": {"Precision": 83, "Recall": 82, " F1-score": 83,"TP": 65, "FN": 17, "FP": 18,"TN": 84 },
     }
 
     left_models = ["Logistic Regression", "SVM"]
@@ -394,9 +394,9 @@ with tab3:
 
             st.markdown("**Confusion Matrix**")
             left_cm = pd.DataFrame(
-                [[values["TN"], values["FP"]], [values["FN"], values["TP"]]],
-                index=["Actual Negative", "Actual Positive"],
-                columns=["Pred Negative", "Pred Positive"],
+                [[values["TP"], values["FN"]], [values["FP"], values["TN"]]],
+                index=["Actual Positive", "Actual Negative"],
+                columns=["Pred Positive", "Pred Negative"],
             )
             st.table(left_cm)
             st.divider()
@@ -411,9 +411,9 @@ with tab3:
 
             st.markdown("**Confusion Matrix**")
             right_cm = pd.DataFrame(
-                [[values["TN"], values["FP"]], [values["FN"], values["TP"]]],
-                index=["Actual Negative", "Actual Positive"],
-                columns=["Pred Negative", "Pred Positive"],
+                [[values["TP"], values["FN"]], [values["FP"], values["TN"]]],
+                index=["Actual Positive", "Actual Negative"],
+                columns=["Pred Positive", "Pred Negative"],
             )
             st.table(right_cm)
             st.divider()
