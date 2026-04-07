@@ -392,8 +392,13 @@ with tab3:
             st.info(f"Recall: **{values['Recall']}%**")
             st.info(f"F1-score: **{values[' F1-score']}%**")
 
-            st.info(f"""confusion metrics:[[{values['TN']:2} {values['FP']:2}] 
-                   [{values['FN']:2} {values['TP']:2}]]""")
+            st.markdown("**Confusion Matrix**")
+            left_cm = pd.DataFrame(
+                [[values["TN"], values["FP"]], [values["FN"], values["TP"]]],
+                index=["Actual Negative", "Actual Positive"],
+                columns=["Pred Negative", "Pred Positive"],
+            )
+            st.table(left_cm)
             st.divider()
 
     with right_col:
@@ -404,11 +409,13 @@ with tab3:
             st.info(f"Recall: **{values['Recall']}%**")
             st.info(f"F1-score: **{values[' F1-score']}%**")
 
-            st.info(f"""
-                Confusion Metrics:
-                [[{values['TN']}  {values['FP']}]
-                [{values['FN']}  {values['TP']}]]
-                """)
+            st.markdown("**Confusion Matrix**")
+            right_cm = pd.DataFrame(
+                [[values["TN"], values["FP"]], [values["FN"], values["TP"]]],
+                index=["Actual Negative", "Actual Positive"],
+                columns=["Pred Negative", "Pred Positive"],
+            )
+            st.table(right_cm)
             st.divider()
 
 
