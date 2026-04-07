@@ -373,10 +373,10 @@ with tab3:
 
     # Example data (replace with real values)
     metrics_data = {
-        "Logistic Regression": {"Precision": 86, "Recall": 89, " F1-score": 87},
-        "Random Forest": {"Precision": 86, "Recall": 91, " F1-score": 88},
-        "SVM": {"Precision": 85, "Recall": 86, " F1-score": 84},
-        "Decision Tree": {"Precision": 83, "Recall": 82, " F1-score": 83},
+        "Logistic Regression": {"Precision": 86, "Recall": 89, " F1-score": 87, "TN": 342, "FP": 58, "FN": 51, "TP": 149},
+        "Random Forest": {"Precision": 86, "Recall": 91, " F1-score": 88, "TN": 350, "FP": 50, "FN": 39, "TP": 161},
+        "SVM": {"Precision": 85, "Recall": 86, " F1-score": 84, "TN": 345, "FP": 55, "FN": 44, "TP": 156},
+        "Decision Tree": {"Precision": 83, "Recall": 82, " F1-score": 83, "TN": 338, "FP": 62, "FN": 58, "TP": 142},
     }
 
     left_models = ["Logistic Regression", "SVM"]
@@ -391,6 +391,9 @@ with tab3:
             st.info(f"Precision: **{values['Precision']}%**")
             st.info(f"Recall: **{values['Recall']}%**")
             st.info(f"F1-score: **{values[' F1-score']}%**")
+
+            st.info(f"""confusion metrics:[[{values['TN']:2} {values['FP']:2}] 
+                   [{values['FN']:2} {values['TP']:2}]]""")
             st.divider()
 
     with right_col:
@@ -400,6 +403,12 @@ with tab3:
             st.info(f"Precision: **{values['Precision']}%**")
             st.info(f"Recall: **{values['Recall']}%**")
             st.info(f"F1-score: **{values[' F1-score']}%**")
+
+            st.info(f"""
+                Confusion Metrics:
+                [[{values['TN']}  {values['FP']}]
+                [{values['FN']}  {values['TP']}]]
+                """)
             st.divider()
 
 
@@ -408,10 +417,9 @@ with tab4:
     # Title
     st.markdown("## 🫀 Heart Disease Dataset Information")
 
-    st.write(
-        "This application uses the Heart Disease UCI Dataset, "
-        "which contains 1000 records with 12 attributes. "
-        "It is widely used for heart disease prediction."
+    st.markdown(
+        "This application is built using the **Heart Disease UCI Dataset**, a well-known dataset commonly used for predicting heart disease." \
+        " It includes **1000 patient records** with **12 important health-related attributes**, making it a reliable source for developing and testing prediction models."
     )
     st.divider()
 
