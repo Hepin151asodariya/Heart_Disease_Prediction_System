@@ -59,7 +59,7 @@ with st.sidebar:
         """,
         unsafe_allow_html=True,
     )
-    st.caption("This dashboard predicts heart disease risk using multiple machine learning models.")
+    st.markdown("This dashboard predicts heart disease risk using multiple machine learning models.")
 
     st.divider()
 
@@ -76,6 +76,7 @@ with st.sidebar:
     - Single patient prediction
     - Bulk CSV prediction
     - Model accuracy comparison
+    - Dataset information 
     """)
 
     st.divider()
