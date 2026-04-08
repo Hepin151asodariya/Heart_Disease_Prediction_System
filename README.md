@@ -1,10 +1,10 @@
 ##Live Demo
-https://heart-risk-predictions.streamlit.app
+https://cardio-risk-analyzer.streamlit.app/
 
 
-# 🫀 Heart Disease Prediction
+# 🫀 Heart risk Prediction
 
-> 🩺 A powerful machine learning web application that predicts the likelihood of heart disease based on patient medical parameters using multiple classification algorithms.
+> 🩺 A powerful machine learning web application that predicts the likelihood of heart risk based on patient medical parameters using multiple classification algorithms.
 
 ---
 
@@ -183,5 +183,5 @@ The models require the following **11 medical features**:
 
 ---
 ##Live Demo
-https://heart-risk-predictions.streamlit.app
+https://cardio-risk-analyzer.streamlit.app/
 
