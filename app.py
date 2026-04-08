@@ -51,12 +51,27 @@ st.title("❤️ CardioRisk Analyzer")
 
 # ========================= SIDEBAR =========================
 with st.sidebar:
-    st.header("System Information")
+    st.markdown(
+        """
+        <div style="color:#2cc980; font-size:26px; font-weight:500;">
+            System Information
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
     st.caption("This dashboard predicts heart disease risk using multiple machine learning models.")
 
     st.divider()
 
-    st.subheader("What This System Includes")
+    
+    st.markdown(
+        """
+        <div style="color:#2cc980; font-size:26px; font-weight:500;">
+           What This System Includes
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
     st.markdown("""
     - Single patient prediction
     - Bulk CSV prediction
@@ -65,7 +80,14 @@ with st.sidebar:
 
     st.divider()
 
-    st.subheader("Models Used")
+    st.markdown(
+        """
+        <div style="color:#2cc980; font-size:26px; font-weight:500;">
+           Models Used
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
     st.markdown("""
     - Logistic Regression
     - Random Forest
@@ -75,7 +97,15 @@ with st.sidebar:
 
     st.divider()
 
-    st.subheader("Parameter Quick Guide( Total 11 features)")
+    st.markdown(
+        """
+        <div style="color:#2cc980; font-size:26px; font-weight:500;">
+           Parameter Quick Guide( Total 11 features)
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    
     st.markdown("""
         - **Age** 
         - **Sex**
