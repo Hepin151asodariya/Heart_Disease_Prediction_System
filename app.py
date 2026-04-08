@@ -164,7 +164,7 @@ with tab1:
     with col1:
         age = st.slider("**Age**", min_value=1, max_value=120, value=40, key="age")   #**Age** here ** is used to make the label bold in Streamlit.
     with col2:
-        sex = st.selectbox("**Sex**", options=["Male", "Female","Other"], key="sex")
+        sex = st.selectbox("**Sex**", options=["Male", "Female"], key="sex")
     with col3:
         chest_pain_type = st.selectbox(
             "**Chest Pain Type**",
@@ -315,7 +315,7 @@ with tab2:
                 * Cholesterol: serum cholesterol [mm/dl]
                 * FastingBS: [0: <= 120 mg/dl, 1: > 120 mg/dl]
                 * RestingECG: [0: Normal, 1: ST-T wave abnormality, 2: Left ventricular hypertrophy]
-                * MaxHR: maximum heart rate [60 – 202]
+                * MaxHR: maximum heart rate [60 - 202]
                 * ExerciseAngina: [0: No, 1: Yes]
                 * Oldpeak: ST depression [numeric]
                 * ST_Slope: [0: Upsloping, 1: Flat, 2: Downsloping]""")
@@ -325,14 +325,14 @@ with tab2:
 
     if uploaded_file is not None:
         input_data = pd.read_csv(uploaded_file)
-        model = load_model("Models/LogisticR.pkl")
+        model = load_model("Models/RFC.pkl")
 
         expected_columns = ["Age", "Sex", "ChestPainType", "RestingBP", "Cholesterol", "FastingBS", "RestingECG", "MaxHR", "ExerciseAngina", "Oldpeak", "ST_Slope"]
 
         if set(expected_columns).issubset(input_data.columns):
             with st.spinner("Processing bulk prediction..."):
-                input_data["prediction LR"] = model.predict(input_data[expected_columns].values)
-                input_data.to_csv("predictHeartLR.csv")
+                input_data["prediction result"] = model.predict(input_data[expected_columns].values)
+                input_data.to_csv("predictHeart.csv")
 
             st.subheader("Prediction Results")
             st.dataframe(input_data, use_container_width=True)
