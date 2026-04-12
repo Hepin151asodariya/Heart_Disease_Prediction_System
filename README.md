@@ -1,5 +1,5 @@
 ##Live Demo
-https://cardio-risk-analyzer.streamlit.app/
+https://cardio-risk-analyzer.streamlit.app
 
 
 # 🫀 Heart risk Prediction
@@ -183,5 +183,5 @@ The models require the following **11 medical features**:
 
 ---
 ##Live Demo
-https://cardio-risk-analyzer.streamlit.app/
+https://cardio-risk-analyzer.streamlit.app
 
